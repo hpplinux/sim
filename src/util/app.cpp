@@ -9,7 +9,7 @@
 namespace sim{
 
 volatile bool quit = false;
-
+//test
 void signal_handler(int sig){
 	switch(sig){
 		case SIGTERM:

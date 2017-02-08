@@ -7,6 +7,8 @@
 namespace sim{
 
 class Decoder{
+
+	
 public:
 	Decoder(){
 		buffer_offset = 0;
