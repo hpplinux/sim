@@ -50,6 +50,9 @@ public:
 
 };
 
+/**
+这个里面fds的意义在哪里呢 ? 直接互斥的访问items 就可以进行数据共享和交互了哈.
+*/
 // Selectable queue, multi writers, single reader
 template <class T>
 class SelectableQueue{
@@ -109,7 +112,7 @@ int SelectableQueue<T>::pop(T *data){
 	while(1){
 		n = ::read(fds[0], buf, 1);
 		if(n < 0){
-			if(errno == EINTR){
+			if(errno == EINTR){//为什么特殊处理?
 				continue;
 			}else{
 				return -1;

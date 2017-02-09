@@ -30,6 +30,10 @@ found in the LICENSE file.
 
 namespace sim{
 
+/*
+能static和const的一定要用.
+这块为啥不用enum呢?
+*/
 const static int FDEVENT_NONE = (0);
 const static int FDEVENT_IN   = (1<<0);
 const static int FDEVENT_PRI  = (1<<1);
@@ -37,11 +41,12 @@ const static int FDEVENT_OUT  = (1<<2);
 const static int FDEVENT_HUP  = (1<<3);
 const static int FDEVENT_ERR  = (1<<4);
 
+/** 为什么不把读写相关的处理函数也注册进来?*/
 struct Fdevent{
 	int fd;
 	int s_flags; // subscribed events
 	int events;	 // ready events
-	struct{
+	struct{//自己私有的变量，定义在自己内部，安全
 		int num;
 		void *ptr;
 	}data;
@@ -54,9 +59,10 @@ struct Fdevent{
 	}
 };
 
-
+/**可以处理多个fd的事物，实际就是一个epoll的包装管理*/
 class Fdevents{
 	public:
+		//可以用using来替代typedef
 		typedef std::vector<struct Fdevent *> events_t;
 	private:
 #ifdef HAVE_EPOLL

@@ -27,7 +27,8 @@ void Link::close(){
 		sock = -1;
 	}
 }
-
+/** Nagle 的算法可以通过将这些数据连接成更大的报文来最小化所发送的报文的数量
+禁用Nagle 算法*/
 void Link::nodelay(bool enable){
 	int opt = enable? 1 : 0;
 	::setsockopt(sock, IPPROTO_TCP, TCP_NODELAY, (void *)&opt, sizeof(opt));
@@ -51,6 +52,9 @@ Link* Link::connect(const std::string &ip, int port){
 	return connect(ip.c_str(), port);
 }
 
+/** connect 不是客户端的行为么 ? 
+确实只是用于client端的测试，跟server没啥关系
+*/
 Link* Link::connect(const char *ip, int port){
 	Link *link;
 	int sock = -1;

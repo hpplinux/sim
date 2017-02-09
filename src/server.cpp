@@ -45,7 +45,9 @@ static std::string msg_str(const sim::Message &msg){
 
 
 namespace sim{
-	
+/** 第一个是accept的fd，第二个是待处理的客户端fd 
+貌似不对....
+**/	
 const static int DEFAULT_TYPE = 0;
 const static int HANDLER_TYPE = 1;
 

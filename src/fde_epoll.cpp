@@ -86,6 +86,7 @@ int Fdevents::clr(int fd, int flags){
 	return 0;
 }
 
+/** 一次epoll_wait的处理*/
 const Fdevents::events_t* Fdevents::wait(int timeout_ms){
 	struct Fdevent *fde;
 	struct epoll_event *epe;
