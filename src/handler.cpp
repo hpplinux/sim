@@ -30,6 +30,7 @@ HandlerState Handler::proc(const Request &req, Response *resp){
 	return HANDLE_OK;
 }
 
+/** 该函数仅仅在test中被用过*/
 void Handler::async_send(Response *resp){
 	this->resps->push(resp);
 }
