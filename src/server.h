@@ -27,7 +27,7 @@ public:
 	//int send_all(const Message &msg);
 private:
 	Fdevents *fdes;
-	Link *serv_link;
+	Link *serv_link; //¹ÜÀíacceptµÄfd
 	int link_count;
 	std::map<int64_t, Session *> sessions;
 	std::vector<Handler *> handlers;

@@ -25,7 +25,7 @@ public:
 	void set(int tag, const std::string &val);
 	const std::string* get(int tag) const;
 	
-	std::string encode() const;
+	std::string encode() const;//只有encode，没有对应的decode，让人看起来很诡异啊
 	const std::map<int, std::string>* fields() const{
 		return &fields_;
 	}

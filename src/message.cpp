@@ -43,11 +43,11 @@ void Message::set(int tag, const std::string &val){
 void Message::add(const std::string &val){
 	int tag;
 	std::map<int, std::string>::const_reverse_iterator it;
-	it = fields_.rbegin();
+	it = fields_.rbegin();//为什么要用反向迭代呢?
 	if(it == fields_.rend()){
 		tag = 0;
 	}else{
-		tag = it->first + 1;
+		tag = it->first + 1;//fields_的 key值是递增的
 	}
 	this->set(tag, val);
 }
