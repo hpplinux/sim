@@ -94,6 +94,7 @@ int SelectableQueue<T>::size(){
 	return items.size();
 }
 
+/** 支持线程安全的item push*/
 template <class T>
 int SelectableQueue<T>::push(const T item){
 	Locking l(&mutex);

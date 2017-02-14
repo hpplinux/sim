@@ -82,10 +82,17 @@ Server* Server::listen(const std::string &ip, int port){
 	return ret;
 }
 
+/**
+唯一添加 HANDLER_TYPE 类型的地方
+HANDLER_TYPE 的意思是添加自定义的处理函数
+这里是注册函数的地方
+*/
 void Server::add_handler(Handler *handler){
-	handler->m_init();
+	handler->m_init();//显式
 	this->handlers.push_back(handler);
 	if(handler->fd() > 0){
+		//把pipe的fd端口也放入epoll进行监控
+		/** 这里是对in的监控，那么数据是什么时候写进去的呢 ? */
 		fdes->set(handler->fd(), FDEVENT_IN, HANDLER_TYPE, handler);
 	}
 }
@@ -156,6 +163,9 @@ int Server::read_session(Session *sess){
 	
 	while(1){
 		Request req;
+		/**为什么一次read, 多次recv呢 ? 
+		因为read一次读出来整个缓存，把能读取的数据都读取出来了，很可能这些数据是由
+		多个独立的item组成，recv的任务就是每次从缓存中取出一个完整的item进行执行**/
 		int ret = link->recv(&req.msg);
 		if(ret == -1){
 			log_info("fd: %d, parse error, delete link", link->fd());
@@ -174,7 +184,7 @@ int Server::read_session(Session *sess){
 			req.time_wait = 1000 * (microtime() - req.stime);
 			HandlerState state = handler->proc(req, &resp);
 			req.time_proc = 1000 * (microtime() - req.stime) - req.time_wait;
-			if(state == HANDLE_RESP){
+			if(state == HANDLE_RESP){//是否需要回复这个req
 				link->send(resp.msg);
 				if(link && !link->output.empty()){
 					fdes->set(link->fd(), FDEVENT_OUT, DEFAULT_TYPE, sess);
@@ -241,7 +251,7 @@ int Server::loop_once(){
 	
 	for(int i=0; i<(int)events->size(); i++){
 		const Fdevent *fde = events->at(i);
-		if(fde->data.ptr == serv_link){
+		if(fde->data.ptr == serv_link){//监听accept的fd端口
 			this->accept_session();
 		}else if(fde->data.num == HANDLER_TYPE){
 			Handler *handler = (Handler *)fde->data.ptr;

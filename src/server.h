@@ -26,9 +26,9 @@ public:
 	//int send(int64_t sess_id, const Message &msg);
 	//int send_all(const Message &msg);
 private:
-	Fdevents *fdes;
+	Fdevents *fdes;//epoll
 	Link *serv_link; //管理accept的fd
-	int link_count;
+	int link_count;//链接的客户端的fd个数
 	std::map<int64_t, Session *> sessions;
 	std::vector<Handler *> handlers;
 

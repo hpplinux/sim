@@ -16,7 +16,7 @@ private:
 	int sock;
 	bool noblock_;
 	bool error_;
-	Decoder decoder_;
+	Decoder decoder_;//这里面存储的是读取进来的数据
 	Link(bool is_server=false);
 	
 	// TODO: max_recv_buf_size, max_send_buf_size

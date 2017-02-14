@@ -154,6 +154,9 @@ Link* Link::accept(){
 	return link;
 }
 
+/**和下面的recv函数有啥区别? 
+将从sock端口读取到的数据存储在 decoder_ 里面
+*/
 int Link::read(){
 	int ret = 0;
 	char buf[16 * 1024];
@@ -187,6 +190,9 @@ int Link::read(){
 	return ret;
 }
 
+/**
+把output里面存储的缓存数据发送出去
+*/
 int Link::write(){
 	int ret = 0;
 	int want;
@@ -221,7 +227,7 @@ int Link::write(){
 
 int Link::flush(){
 	int len = 0;
-	while(!output.empty()){
+	while(!output.empty()){//write函数本身就是将所有的数据都发送出去，这里还有必要循环么?
 		int ret = this->write();
 		if(ret == -1){
 			return -1;
@@ -231,10 +237,18 @@ int Link::flush(){
 	return len;
 }
 
+/**
+解析 decoder_ 中的数据，解析后的数据存储到msg变量里面
+值得注意的是，本函数每次从decoder_这个大缓存里面仅仅取出一条逻辑上完整的val.
+**/
 int Link::recv(Message *msg){
 	return decoder_.parse(msg);
 }
 
+/**
+把要发送的数据存储在output变量里面
+这个时候本质数据缓存了，还没有发出去
+*/
 int Link::send(const Message &msg){
 	std::string s = msg.encode();
 	output.append(s);

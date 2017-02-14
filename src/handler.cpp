@@ -9,7 +9,7 @@ int Handler::m_init(){
 	return this->init();
 }
 
-int Handler::m_free(){
+int Handler::m_free(){//清理工作为什么不放在析构函数里面呢 ?
 	delete resps;
 	return this->free();
 }

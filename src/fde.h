@@ -47,7 +47,17 @@ struct Fdevent{
 	int s_flags; // subscribed events
 	int events;	 // ready events
 	struct{//自己私有的变量，定义在自己内部，安全
+		/**
+		const static int DEFAULT_TYPE = 0;
+		const static int HANDLER_TYPE = 1;
+		num是这两个值之一
+		*/
 		int num;
+		/**
+		可以是Link、Handler 、Session的指针
+		如果是HANDLER_TYPE的话，则是Handler；
+		如果是DEFAULT_TYPE的话，则是Session
+		*/
 		void *ptr;
 	}data;
 	
@@ -75,7 +85,7 @@ class Fdevents{
 		fd_set writeset;
 #endif
 		events_t events;
-		events_t ready_events;
+		events_t ready_events;//负责将某一次wait收集到的请求打包返回
 
 		struct Fdevent *get_fde(int fd);
 	public:

@@ -12,7 +12,7 @@ namespace sim{
 class Session
 {
 public:
-	int64_t id;
+	int64_t id;//顺序自增变量
 	Link *link;
 	
 	Session(){
@@ -44,7 +44,7 @@ public:
 typedef enum{
 	HANDLE_OK   = 0,
 	HANDLE_FAIL = 1,
-	HANDLE_RESP = 1,
+	HANDLE_RESP = 2,
 }HandlerState;
 
 

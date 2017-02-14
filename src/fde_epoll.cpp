@@ -23,6 +23,7 @@ Fdevents::~Fdevents(){
 	ready_events.clear();
 }
 
+/**本函数没有被调用过 */
 bool Fdevents::isset(int fd, int flag){
 	struct Fdevent *fde = get_fde(fd);
 	return (bool)(fde->s_flags & flag);
@@ -113,6 +114,7 @@ const Fdevents::events_t* Fdevents::wait(int timeout_ms){
 
 		ready_events.push_back(fde);
 	}
+	//把本次wait收到的fde 打包返回
 	return &ready_events;
 }
 
