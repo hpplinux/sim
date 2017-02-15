@@ -41,7 +41,7 @@ const static int FDEVENT_OUT  = (1<<2);
 const static int FDEVENT_HUP  = (1<<3);
 const static int FDEVENT_ERR  = (1<<4);
 
-/** 为什么不把读写相关的处理函数也注册进来?*/
+/** 为什么不把读写相关的处理函数也注册进来?  因为这俩函数是统一的，所以不用个性化的设置*/
 struct Fdevent{
 	int fd;
 	int s_flags; // subscribed events

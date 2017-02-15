@@ -38,7 +38,7 @@ void Handler::async_send(Response *resp){
 Response* Handler::handle(){
 	while(this->resps->size() > 0){
 		Response *resp;
-		if(this->resps->pop(&resp) == 1 && resp != NULL){
+		if(this->resps->pop(&resp) == 1 && resp != NULL){//取出一个item的数据
 			return resp;
 		}
 	}

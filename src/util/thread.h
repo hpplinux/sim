@@ -105,6 +105,9 @@ int SelectableQueue<T>::push(const T item){
 	return 1;
 }
 
+/**
+线程安全的取出了一个item的数据并保存在data里面
+*/
 template <class T>
 int SelectableQueue<T>::pop(T *data){
 	int n, ret = 1;
